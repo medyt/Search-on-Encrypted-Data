@@ -1,0 +1,9 @@
+Project name : Frequency Hiding OPE
+
+Coordinator : Sorin Iftene
+
+Members Name :  Petru Cehan --> petru.cehan@info.uaic.ro --> Crypto Module, Login/Auth
+		Vasiliu Dan --> alex.vasiliu@info.uaic.ro --> Sql Interface, Data Layer
+		Cieri Alberto --> alberto.cieri@info.uaic.ro --> BST module, server design
+		Madalin Andone --> madalin.andone@info.uaic.ro --> UI interface, integration
+		
