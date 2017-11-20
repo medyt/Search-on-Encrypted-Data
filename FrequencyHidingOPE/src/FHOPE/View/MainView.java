@@ -1,8 +1,8 @@
 package FHOPE.View;
 
 import FHOPE.Model.DbManager;
+import FHOPE.View.Windows.LoginWindow;
 import FHOPE.View.Windows.WindowsMaker;
-
 public class MainView {
     private static MainView mainViewInstance = null;
     private WindowsMaker windowsMaker;
@@ -21,6 +21,8 @@ public class MainView {
     public static void main(String [] args) throws Exception {
         DbManager dao = new DbManager();
         dao.createDbConnection();
+        LoginWindow login=new LoginWindow();
+        login.RunLogin(args);
     }
 
     protected WindowsMaker getWindowsMaker() {
