@@ -1,6 +1,10 @@
 package FHOPE.View.Windows;
 
-public interface Window {
+import javafx.application.Application;
 
-    void draw();
+
+public abstract class Window extends Application {
+
+    public abstract void draw();
+
 }

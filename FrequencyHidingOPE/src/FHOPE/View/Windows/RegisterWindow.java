@@ -1,7 +1,14 @@
 package FHOPE.View.Windows;
 
-public class RegisterWindow implements Window {
+import javafx.stage.Stage;
+
+public class RegisterWindow extends Window {
 
     @Override
     public void draw() {}
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+
+    }
 }

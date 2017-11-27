@@ -1,21 +1,48 @@
 package FHOPE.Model;
 
 import java.sql.*;
-import java.util.List;
 
 public class DbManager {
-    private Connection connection = null;
+    private static Connection connection = null;
     private Statement statement = null;
     private ResultSet resultSet = null;
 
-    public void createDbConnection() throws Exception {
-        Class.forName("com.mysql.jdbc.Driver");
+    private static String fullInfoQuery = "SELECT * FROM customers WHERE card_number = ? AND id = ?;";
+    private static String updateBalance = "UPDATE customers SET balance = ? WHERE balance = ?;";
 
-        connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/fhope","root","root");
-        statement = connection.createStatement();
-        resultSet = statement
-                .executeQuery("select * from customers");
-        writeResultSet(resultSet);
+    public static void updateBalance(int newBalance,int oldbalance) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement(updateBalance);
+        statement.setInt(1,newBalance);
+        statement.setInt(2,oldbalance);
+        statement.executeQuery();
+    }
+
+    public Customer getCustomer(Login loginData) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement(fullInfoQuery);
+        statement.setString(1,loginData.getCardNo());
+        statement.setString(2,loginData.getId());
+        ResultSet resultSet = statement.executeQuery();
+
+        Customer customer = new Customer();
+
+        while (resultSet.next())
+        {
+            customer.setCardNumber(resultSet.getString("card_number"));
+            customer.setName(resultSet.getString("name"));
+            customer.setBalance(resultSet.getInt("balance"));
+            customer.setId(resultSet.getString("id"));
+            customer.setPin(resultSet.getString("pin_code"));
+        }
+
+        return customer;
+    }
+
+    public Connection createDbConnection() throws Exception {
+      Class.forName("com.mysql.jdbc.Driver");
+
+      connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/appdb?" + "user=root&password=root");
+
+      return connection;
     }
 
     private void writeResultSet(ResultSet resultSet) throws SQLException {
@@ -47,16 +74,6 @@ public class DbManager {
             }
         } catch (Exception e) {
 
-        }
-    }
-
-    private List<Customer> customers;
-
-    public void attach(Customer customer) {}
-
-    public void notifyAllObservers(){
-        for (Customer customer : customers) {
-            customer.update();
         }
     }
 }
