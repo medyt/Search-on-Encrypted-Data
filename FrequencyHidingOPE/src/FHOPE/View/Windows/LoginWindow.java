@@ -1,6 +1,5 @@
 package FHOPE.View.Windows;
 
-import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -10,7 +9,7 @@ public class LoginWindow extends Window {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("../../Resources/FXMLDocument.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../../Resources/FXMLLogin.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();

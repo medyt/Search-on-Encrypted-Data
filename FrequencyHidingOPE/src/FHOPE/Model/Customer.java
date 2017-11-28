@@ -2,57 +2,49 @@ package FHOPE.Model;
 
 public class Customer {
 
-    private String name;
-    private String cardNumber;
-    private String id;
-    private int balance;
-    private String pin;
+    private String username;
+    private String email;
+    private String balance;
+    private String cardnumber;
+    private String password;
 
-    public Customer() {
-       // dbManager.attach(this);
+    public String getUsername() {
+        return username;
     }
 
-    public String getName() {
-        return name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getEmail() {
+        return email;
     }
 
-    private DbManager dbManager;
-
-    public void update() {}
-
-    public String getCardNumber() {
-        return cardNumber;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public void setCardNumber(String cardNumber) {
-        this.cardNumber = cardNumber;
-    }
-
-    public int getBalance() {
+    public String getBalance() {
         return balance;
     }
 
-    public void setBalance(int balance) {
+    public void setBalance(String balance) {
         this.balance = balance;
     }
 
-    public String getPin() {
-        return pin;
+    public String getCardnumber() {
+        return cardnumber;
     }
 
-    public void setPin(String pin) {
-        this.pin = pin;
+    public void setCardnumber(String cardnumber) {
+        this.cardnumber = cardnumber;
     }
 
-    public String getId() {
-        return id;
+    public String getPassword() {
+        return password;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

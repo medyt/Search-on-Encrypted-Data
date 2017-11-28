@@ -1,12 +1,14 @@
 package FHOPE.Model.Query;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
 public abstract class Query {
+    protected Connection connection;
 
-    protected QueryStrategy queryStrategy;
+    public abstract String createQuery(String [] args) throws Exception;
 
-    public abstract void setArguments();
-
-    public final void execute() {
-        queryStrategy.executeQuery();
+    public final void executeQuery(PreparedStatement preparedStmt) throws Exception {
+        preparedStmt.execute();
     }
 }

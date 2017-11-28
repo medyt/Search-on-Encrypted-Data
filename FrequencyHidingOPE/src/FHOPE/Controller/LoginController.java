@@ -1,8 +1,5 @@
 package FHOPE.Controller;
 
-import FHOPE.Model.DbManager;
-
-
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,51 +19,42 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 
-public class LoginController implements Initializable {
+public class LoginController extends Controller implements Initializable {
 
     @FXML
-    private TextField textEmail;
+    private TextField textUsername;
 
     @FXML
     private PasswordField textPassword;
 
-    Stage dialogStage = new Stage();
-    Scene scene;
-
-    Connection connection = null;
-    PreparedStatement preparedStatement = null;
-    ResultSet resultSet = null;
-
-    public LoginController() {
-        DbManager dao = new DbManager();
-        try {
-            connection = dao.createDbConnection();
-        }
-        catch (Exception e){}
+    public LoginController() throws Exception {
+        super();
     }
 
     @FXML
     private void handleButtonAction(ActionEvent event) {
-        String Lastname = textEmail.getText().toString();
-        String password = textPassword.getText().toString();
+        String username = textUsername.getText();
+        String password = textPassword.getText();
 
-        String sql = "SELECT * FROM customers WHERE lastname = ? and password = ?";
+        String sql = "SELECT * FROM customers WHERE username = ? and password = ?";
 
-        try{
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, Lastname);
+        try (Connection connection = dbm.getDbConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, username);
             preparedStatement.setString(2, password);
-            resultSet = preparedStatement.executeQuery();
+
+            ResultSet resultSet = preparedStatement.executeQuery();
             if(!resultSet.next()){
                 infoBox("Enter Correct Name and Password", "Failed", null);
-            }else{
+            }
+            else {
                 infoBox("Login Successful", "Success", null);
                 Node source = (Node) event.getSource();
-                dialogStage = (Stage) source.getScene().getWindow();
-                dialogStage.close();
-                scene = new Scene(FXMLLoader.load(getClass().getResource("../Resources/FXMLMenu.fxml")));
-                dialogStage.setScene(scene);
-                dialogStage.show();
+                Stage stage = (Stage) source.getScene().getWindow();
+                stage.close();
+                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("../Resources/FXMLMenu.fxml")));
+                stage.setScene(scene);
+                stage.show();
             }
 
         }catch(Exception e){
@@ -74,7 +62,7 @@ public class LoginController implements Initializable {
         }
     }
 
-    public static void infoBox(String infoMessage, String titleBar, String headerMessage)
+    public void infoBox(String infoMessage, String titleBar, String headerMessage)
     {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle(titleBar);
@@ -84,7 +72,5 @@ public class LoginController implements Initializable {
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-
-    }
+    public void initialize(URL url, ResourceBundle rb) {}
 }

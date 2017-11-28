@@ -1,6 +1,6 @@
 package FHOPE.View;
 
-import FHOPE.Model.DbManager;
+import FHOPE.Controller.QueryController;
 import FHOPE.View.Windows.LoginWindow;
 import FHOPE.View.Windows.WindowsMaker;
 
@@ -20,9 +20,13 @@ public class MainView {
     }
 
     public static void main(String [] args) throws Exception {
-        DbManager dao = new DbManager();
-        dao.createDbConnection();
-        LoginWindow login = new LoginWindow();
-        login.draw();
+        //LoginWindow login = new LoginWindow();
+        //login.draw();
+
+        // here should be an instance of QueryWindow that uses QueryController
+        // exactly as was done for Login
+        QueryController queryController = new QueryController();
+        queryController.insert(new String[]{"User7", "mail2", "112", "1122334455667788", "password"});
+        queryController.insert(new String[]{"User6", "mail2", "112", "1122334455667788", "password"});
     }
 }
