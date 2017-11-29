@@ -26,8 +26,8 @@ public class QueryService extends Controller {
 
     public void insert(Customer newCustomer) throws Exception {
         // encrypt password before inserting
-        String password = newCustomer.getPassword();
 
+        String password = newCustomer.getPassword();
         newCustomer.setPassword(encryptSensitiveValue(password));
 
         try (Connection connection = dbm.getDbConnection()){
@@ -44,4 +44,5 @@ public class QueryService extends Controller {
             insertQuery.executeQuery(preparedStmt);
         }
     }
+    public void select(Customer newCustomer){}//to do the functionality here
 }

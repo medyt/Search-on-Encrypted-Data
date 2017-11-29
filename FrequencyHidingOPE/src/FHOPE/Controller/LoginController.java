@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ResourceBundle;
 
+import FHOPE.Model.Customer;
+import FHOPE.Services.QueryService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,11 +34,18 @@ public class LoginController extends Controller implements Initializable {
     }
 
     @FXML
-    private void handleButtonAction(ActionEvent event) {
+    private void handleButtonAction(ActionEvent event) throws Exception {
         String username = textUsername.getText();
         String password = textPassword.getText();
 
         String sql = "SELECT * FROM customers WHERE username = ? and password = ?";
+        QueryService service = new QueryService();
+
+
+        Customer newCustomer = new Customer();
+        newCustomer.setUsername(username);
+        newCustomer.setPassword(password);
+        service.select(newCustomer);
 
         try (Connection connection = dbm.getDbConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
