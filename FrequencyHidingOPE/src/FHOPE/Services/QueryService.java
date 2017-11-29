@@ -1,5 +1,7 @@
-package FHOPE.Controller;
+package FHOPE.Services;
 
+import FHOPE.Controller.Controller;
+import FHOPE.Model.Customer;
 import FHOPE.Model.DataStructure.BinarySearchTree;
 import FHOPE.Model.Query.InsertQuery;
 import FHOPE.Model.Query.Query;
@@ -7,13 +9,13 @@ import FHOPE.Model.Query.Query;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
-public class QueryController extends Controller {
+public class QueryService extends Controller {
     BinarySearchTree bst = null;
 
     private int minEncryptionBound = 1;
     private int maxEncryptionBound = 1024;
 
-    public QueryController() throws Exception {
+    public QueryService() throws Exception {
         super();
         bst = new BinarySearchTree();
     }
@@ -22,21 +24,22 @@ public class QueryController extends Controller {
         return Integer.toString(bst.encrypt(value, minEncryptionBound, maxEncryptionBound));
     }
 
-    public void insert(String [] args) throws Exception {
+    public void insert(Customer newCustomer) throws Exception {
         // encrypt password before inserting
-        String password = args[4];
-        args[4] = encryptSensitiveValue(password);
+        String password = newCustomer.getPassword();
+
+        newCustomer.setPassword(encryptSensitiveValue(password));
 
         try (Connection connection = dbm.getDbConnection()){
             Query insertQuery = new InsertQuery();
-            String queryStmt = insertQuery.createQuery(args);
+            String queryStmt = insertQuery.createQuery();
 
             PreparedStatement preparedStmt = connection.prepareStatement(queryStmt);
-            preparedStmt.setString (1, args[0]);
-            preparedStmt.setString (2, args[1]);
-            preparedStmt.setString (3, args[2]);
-            preparedStmt.setString (4, args[3]) ;
-            preparedStmt.setString (5, args[4]);
+            preparedStmt.setString (1, newCustomer.getUsername());
+            preparedStmt.setString (2, newCustomer.getEmail());
+            preparedStmt.setString (3, newCustomer.getBalance());
+            preparedStmt.setString (4, newCustomer.getCardNumber()) ;
+            preparedStmt.setString (5, newCustomer.getPassword());
 
             insertQuery.executeQuery(preparedStmt);
         }

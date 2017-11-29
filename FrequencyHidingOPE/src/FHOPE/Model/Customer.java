@@ -32,11 +32,11 @@ public class Customer {
         this.balance = balance;
     }
 
-    public String getCardnumber() {
+    public String getCardNumber() {
         return cardnumber;
     }
 
-    public void setCardnumber(String cardnumber) {
+    public void setCardNumber(String cardnumber) {
         this.cardnumber = cardnumber;
     }
 
