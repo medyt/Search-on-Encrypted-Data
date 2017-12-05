@@ -4,7 +4,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.security.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -18,7 +17,7 @@ public class IOservice {
         try {
             File file = new File(FILENAME);
 
-            // if file doesnt exists, then create it
+            // if file does'nt exists, then create it
             if (!file.exists()) {
                 file.createNewFile();
             }

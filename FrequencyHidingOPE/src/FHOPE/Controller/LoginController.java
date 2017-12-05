@@ -45,7 +45,6 @@ public class LoginController extends Controller implements Initializable {
         Customer newCustomer = new Customer();
         newCustomer.setUsername(username);
         newCustomer.setPassword(password);
-        service.select(newCustomer);
 
         try (Connection connection = dbm.getDbConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);

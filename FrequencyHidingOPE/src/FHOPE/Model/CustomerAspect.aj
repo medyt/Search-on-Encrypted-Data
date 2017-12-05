@@ -1,12 +1,7 @@
 package FHOPE.Model;
-import FHOPE.Model.Customer;
+
 import FHOPE.Services.IOservice;
 import FHOPE.Services.QueryService;
-
-import java.io.File;
-import java.io.IOException;
-import java.security.Timestamp;
-import java.text.SimpleDateFormat;
 
 public aspect CustomerAspect {
     pointcut registerQueryStatus(QueryService service,Customer customer):

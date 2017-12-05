@@ -5,9 +5,11 @@ import FHOPE.Model.Customer;
 import FHOPE.Model.DataStructure.BinarySearchTree;
 import FHOPE.Model.Query.InsertQuery;
 import FHOPE.Model.Query.Query;
+import FHOPE.Model.Query.SelectQuery;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class QueryService extends Controller {
     BinarySearchTree bst = null;
@@ -22,6 +24,10 @@ public class QueryService extends Controller {
 
     public String encryptSensitiveValue(String value) {
         return Integer.toString(bst.encrypt(value, minEncryptionBound, maxEncryptionBound));
+    }
+
+    public String decryptSensitiveValue(String cipher) throws Exception {
+        return bst.decrypt(Integer.parseInt(cipher));
     }
 
     public void insert(Customer newCustomer) throws Exception {
@@ -41,8 +47,28 @@ public class QueryService extends Controller {
             preparedStmt.setString (4, newCustomer.getCardNumber()) ;
             preparedStmt.setString (5, newCustomer.getPassword());
 
-            insertQuery.executeQuery(preparedStmt);
+            boolean rs = insertQuery.execute(preparedStmt);
         }
     }
-    public void select(Customer newCustomer){}//to do the functionality here
+
+    public void select(String usernameValue, String encryptedPassword) throws Exception {
+        try (Connection connection = dbm.getDbConnection()){
+            Query selectQuery = new SelectQuery();
+            String queryStmt = selectQuery.createQuery();
+
+            PreparedStatement preparedStmt = connection.prepareStatement(queryStmt);
+            preparedStmt.setString (1, usernameValue);
+            preparedStmt.setString (2, encryptedPassword);
+
+            ResultSet rs = selectQuery.executeQuery(preparedStmt);
+            while (rs.next()){
+                String username = rs.getString(1);
+                String email = rs.getString(2);
+                String cardNumber = rs.getString(4);
+                String passwordCipher = rs.getString(5);
+                String decryptedPassword = decryptSensitiveValue(passwordCipher);
+                System.out.println(username + "\t" + email + "\t" + cardNumber + "\t" + decryptedPassword);
+            }
+        }
+    }
 }

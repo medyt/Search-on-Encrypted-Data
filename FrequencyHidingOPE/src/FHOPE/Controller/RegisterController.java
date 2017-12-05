@@ -1,27 +1,15 @@
 package FHOPE.Controller;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ResourceBundle;
 
 import FHOPE.Model.Customer;
 import FHOPE.Services.QueryService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-
-import javafx.stage.Stage;
-
-//register controller uses QueryService
 
 public class RegisterController extends Controller implements Initializable {
 
@@ -52,6 +40,15 @@ public class RegisterController extends Controller implements Initializable {
 
         QueryService service = new QueryService();
         service.insert(newCustomer);
+        newCustomer.setUsername(username + "1");
+        newCustomer.setPassword(password + "1");
+        service.insert(newCustomer);
+        newCustomer.setUsername(username + "2");
+        newCustomer.setPassword(password + "2");
+        service.insert(newCustomer);
+
+        // do select
+        service.select(username + "1", "768");
     }
 
     public RegisterController() throws Exception {
