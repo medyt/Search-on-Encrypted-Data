@@ -5,7 +5,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="437.0" prefWidth="548.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.40" fx:controller="FHOPE.Controller.LoginController">
     <children>
-        <Button fx:id="button" layoutX="204.0" layoutY="162.0" onAction="#handleButtonAction" text="Login" />
+        <Button fx:id="loginButton" layoutX="204.0" layoutY="162.0" onAction="#handleLoginButtonAction" text="Login" />
         <Label fx:id="label" layoutX="204.0" layoutY="269.0" prefHeight="17.0" prefWidth="149.0" />
         <TextField fx:id="textUsername" layoutX="200.0" layoutY="65.0" />
         <Label layoutX="107.0" layoutY="69.0" text="Name" />

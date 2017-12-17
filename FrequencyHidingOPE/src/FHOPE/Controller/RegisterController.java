@@ -7,9 +7,13 @@ import FHOPE.Model.Customer;
 import FHOPE.Services.QueryService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class RegisterController extends Controller implements Initializable {
 
@@ -26,7 +30,7 @@ public class RegisterController extends Controller implements Initializable {
     private TextField textCardNumber;
 
     @FXML
-    private void handleSubmitButton(ActionEvent event) throws Exception {
+    private void handleSubmitButton(ActionEvent actionEvent) throws Exception {
         String username = textUsername.getText();
         String password = textPassword.getText();
         String email = textEmail.getText();
@@ -40,15 +44,13 @@ public class RegisterController extends Controller implements Initializable {
 
         QueryService service = new QueryService();
         service.insert(newCustomer);
-        newCustomer.setUsername(username + "1");
-        newCustomer.setPassword(password + "1");
-        service.insert(newCustomer);
-        newCustomer.setUsername(username + "2");
-        newCustomer.setPassword(password + "2");
-        service.insert(newCustomer);
 
-        // do select
-        service.select(username + "1", "768");
+        Node source = (Node) actionEvent.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+        stage.close();
+        Scene scene = new Scene(FXMLLoader.load(getClass().getResource("../Resources/FXMLMenu.fxml")));
+        stage.setScene(scene);
+        stage.show();
     }
 
     public RegisterController() throws Exception {

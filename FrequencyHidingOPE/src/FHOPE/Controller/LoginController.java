@@ -34,39 +34,25 @@ public class LoginController extends Controller implements Initializable {
     }
 
     @FXML
-    private void handleButtonAction(ActionEvent event) throws Exception {
+    private void handleLoginButtonAction(ActionEvent event) throws Exception {
         String username = textUsername.getText();
         String password = textPassword.getText();
 
-        String sql = "SELECT * FROM customers WHERE username = ? and password = ?";
         QueryService service = new QueryService();
 
+        String passwordPlain = service.select(username);
 
-        Customer newCustomer = new Customer();
-        newCustomer.setUsername(username);
-        newCustomer.setPassword(password);
-
-        try (Connection connection = dbm.getDbConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, username);
-            preparedStatement.setString(2, password);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if(!resultSet.next()){
-                infoBox("Enter Correct Name and Password", "Failed", null);
-            }
-            else {
-                infoBox("Login Successful", "Success", null);
-                Node source = (Node) event.getSource();
-                Stage stage = (Stage) source.getScene().getWindow();
-                stage.close();
-                Scene scene = new Scene(FXMLLoader.load(getClass().getResource("../Resources/FXMLMenu.fxml")));
-                stage.setScene(scene);
-                stage.show();
-            }
-
-        }catch(Exception e){
-            e.printStackTrace();
+        if (passwordPlain.equals(password)) {
+            infoBox("Login Successful", "Success", null);
+            Node source = (Node) event.getSource();
+            Stage stage = (Stage) source.getScene().getWindow();
+            stage.close();
+            Scene scene = new Scene(FXMLLoader.load(getClass().getResource("../Resources/FXMLMenu.fxml")));
+            stage.setScene(scene);
+            stage.show();
+        }
+        else {
+            infoBox("Enter Correct Name and Password", "Failed", null);
         }
     }
 

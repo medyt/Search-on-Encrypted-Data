@@ -33,7 +33,7 @@ public class BinarySearchTreeTest {
 
     @Test(dataProvider = "Plaintexts")
     public void testPlaintextsEncryption(final String plain) throws Exception {
-        BinarySearchTree tree = new BinarySearchTree();
+        BinarySearchTree tree = BinarySearchTree.getTreeInstance();
 
         Assert.assertNull(tree.root);
 
@@ -46,7 +46,7 @@ public class BinarySearchTreeTest {
 
     @Test(dataProvider = "ArrayOfPlaintexts")
     public void testArrayOfPlaintextsEncryption(final List<String> plaintexts) throws Exception {
-        BinarySearchTree tree = new BinarySearchTree();
+        BinarySearchTree tree = BinarySearchTree.getTreeInstance();
 
         List<Integer> ciphers = plaintexts.stream()
                                           .map(p -> tree.encrypt(p, minBound, maxBound))

@@ -19,7 +19,7 @@ public class QueryService extends Controller {
 
     public QueryService() throws Exception {
         super();
-        bst = new BinarySearchTree();
+        bst = BinarySearchTree.getTreeInstance();
     }
 
     public String encryptSensitiveValue(String value) {
@@ -51,24 +51,24 @@ public class QueryService extends Controller {
         }
     }
 
-    public void select(String usernameValue, String encryptedPassword) throws Exception {
+    public String select(String usernameValue) throws Exception {
         try (Connection connection = dbm.getDbConnection()){
             Query selectQuery = new SelectQuery();
             String queryStmt = selectQuery.createQuery();
 
             PreparedStatement preparedStmt = connection.prepareStatement(queryStmt);
             preparedStmt.setString (1, usernameValue);
-            preparedStmt.setString (2, encryptedPassword);
 
             ResultSet rs = selectQuery.executeQuery(preparedStmt);
+            String decryptedPassword = "";
             while (rs.next()){
                 String username = rs.getString(1);
                 String email = rs.getString(2);
                 String cardNumber = rs.getString(4);
                 String passwordCipher = rs.getString(5);
-                String decryptedPassword = decryptSensitiveValue(passwordCipher);
-                System.out.println(username + "\t" + email + "\t" + cardNumber + "\t" + decryptedPassword);
+                decryptedPassword = decryptSensitiveValue(passwordCipher);
             }
+            return decryptedPassword;
         }
     }
 }

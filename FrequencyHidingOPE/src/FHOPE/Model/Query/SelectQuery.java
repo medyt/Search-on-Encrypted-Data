@@ -4,7 +4,7 @@ public class SelectQuery extends Query {
 
     @Override
     public String createQuery() throws Exception {
-        String query = "SELECT * FROM customers WHERE username = ? and password = ?";
+        String query = "SELECT * FROM customers WHERE username = ?";
         return query;
     }
 }

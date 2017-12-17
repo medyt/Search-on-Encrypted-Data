@@ -1,12 +1,21 @@
 package FHOPE.Model.DataStructure;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class BinarySearchTree {
-    public Node root;
+public class BinarySearchTree implements Serializable {
+    public Node root = null;
 
-    public BinarySearchTree() {
-        this.root = null;
+    private static BinarySearchTree treeInstance = null;
+
+    private BinarySearchTree() {}
+
+    public static BinarySearchTree getTreeInstance() {
+        if (treeInstance == null) {
+            treeInstance = new BinarySearchTree();
+        }
+
+        return treeInstance;
     }
 
     public int encrypt(final String plain, int minBound, int maxBound) {
