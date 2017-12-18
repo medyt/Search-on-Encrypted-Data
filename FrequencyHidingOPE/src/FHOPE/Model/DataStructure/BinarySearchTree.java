@@ -49,12 +49,12 @@ public class BinarySearchTree {
                 }
             }
 
-            else if (plain.compareTo(current.plain) < 0 || coin == 0) {
+            if (plain.compareTo(current.plain) < 0 || coin == 0) {
                 maxBound = current.cipher;
                 current = current.left;
 
                 if (current == null) {
-                    parent.left = new Node(parent.cipher + (int) Math.ceil((parent.cipher - minBound) / 2.0), plain);
+                    parent.left = new Node(minBound + (int) Math.ceil((parent.cipher - minBound) / 2.0), plain);
                     return parent.left.cipher;
                 }
             }
