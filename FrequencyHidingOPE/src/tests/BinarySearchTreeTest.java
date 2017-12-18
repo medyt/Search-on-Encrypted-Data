@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.Arrays.asList;
+
 
 public class BinarySearchTreeTest {
     private static final int minBound = -1;
@@ -28,24 +30,51 @@ public class BinarySearchTreeTest {
 
     @DataProvider(name = "ArrayOfPlaintexts")
     public static Object[][] createArrayOfPlaintexts() {
-        return new Object[][] { {Arrays.asList("plain-1", "plain-2", "plain-3", "plain-4", "plain-5")} };
+        return new Object[][] { {asList("plain-1", "plain-1", "plain-2", "plain-3", "plain-4", "plain-5")} };
+    }
+
+    @Test
+    public void testNullRootAtInstantiation() throws Exception {
+        BinarySearchTree.cleanInstance();
+        Assert.assertNull(BinarySearchTree.root);
     }
 
     @Test(dataProvider = "Plaintexts")
     public void testPlaintextsEncryption(final String plain) throws Exception {
+        BinarySearchTree.cleanInstance();
         BinarySearchTree tree = BinarySearchTree.getTreeInstance();
-
-        Assert.assertNull(tree.root);
 
         int cipher = tree.encrypt(plain, minBound, maxBound);
 
-        Assert.assertNotNull(tree.root);
         Assert.assertTrue(cipher >= minBound && cipher <= maxBound);
+    }
+
+    @Test(dataProvider = "Plaintexts")
+    public void testPlaintextsDecryption(final String plain) throws Exception {
+        BinarySearchTree.cleanInstance();
+        BinarySearchTree tree = BinarySearchTree.getTreeInstance();
+
+        int cipher = tree.encrypt(plain, minBound, maxBound);
+
         Assert.assertEquals(tree.decrypt(cipher), plain);
     }
 
     @Test(dataProvider = "ArrayOfPlaintexts")
     public void testArrayOfPlaintextsEncryption(final List<String> plaintexts) throws Exception {
+        BinarySearchTree.cleanInstance();
+        BinarySearchTree tree = BinarySearchTree.getTreeInstance();
+
+        List<Integer> ciphers = plaintexts.stream()
+                                          .map(p -> tree.encrypt(p, minBound, maxBound))
+                                          .collect(Collectors.toList());
+        Assert.assertEquals(ciphers.stream()
+                                   .filter(c -> (minBound <= c && maxBound >= c))
+                                   .collect(Collectors.toList()), ciphers);
+    }
+
+    @Test(dataProvider = "ArrayOfPlaintexts")
+    public void testArrayOfPlaintextsDecryption(final List<String> plaintexts) throws Exception {
+        BinarySearchTree.cleanInstance();
         BinarySearchTree tree = BinarySearchTree.getTreeInstance();
 
         List<Integer> ciphers = plaintexts.stream()

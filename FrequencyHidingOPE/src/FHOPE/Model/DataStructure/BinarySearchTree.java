@@ -1,14 +1,19 @@
 package FHOPE.Model.DataStructure;
 
-import java.io.Serializable;
 import java.util.Random;
 
-public class BinarySearchTree implements Serializable {
-    public Node root = null;
+public class BinarySearchTree {
+    public static Node root;
+    private static BinarySearchTree treeInstance;
 
-    private static BinarySearchTree treeInstance = null;
+    private BinarySearchTree() {
+        treeInstance = null;
+        root = null;
+    }
 
-    private BinarySearchTree() {}
+    public static void cleanInstance() {
+        treeInstance = new BinarySearchTree();
+    }
 
     public static BinarySearchTree getTreeInstance() {
         if (treeInstance == null) {
