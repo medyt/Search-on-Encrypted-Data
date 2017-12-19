@@ -33,13 +33,23 @@ public class LoginController extends Controller implements Initializable {
         super();
     }
 
+    private static Customer loggedInCustomer;
+
+    public static Customer getCurrentCustomer()
+    {
+        return loggedInCustomer;
+    }
+
     @FXML
     private void handleLoginButtonAction(ActionEvent event) throws Exception {
         String username = textUsername.getText();
         String password = textPassword.getText();
 
-        QueryService service = new QueryService();
+        loggedInCustomer = new Customer();
+        loggedInCustomer.setUsername(username);
+        loggedInCustomer.setPassword(password);
 
+        QueryService service = new QueryService();
         String passwordPlain = service.select(username);
 
         if (passwordPlain.equals(password)) {
@@ -47,7 +57,7 @@ public class LoginController extends Controller implements Initializable {
             Node source = (Node) event.getSource();
             Stage stage = (Stage) source.getScene().getWindow();
             stage.close();
-            Scene scene = new Scene(FXMLLoader.load(getClass().getResource("../Resources/FXMLMenu.fxml")));
+            Scene scene = new Scene(FXMLLoader.load(getClass().getResource("../Resources/FXMLOperations.fxml")));
             stage.setScene(scene);
             stage.show();
         }

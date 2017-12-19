@@ -4,6 +4,7 @@ public class AlterQuery extends Query {
 
     @Override
     public String createQuery() throws Exception {
-        return null;
+        String query = "UPDATE CUSTOMERS SET balance=? WHERE username = ?";
+        return query;
     }
 }

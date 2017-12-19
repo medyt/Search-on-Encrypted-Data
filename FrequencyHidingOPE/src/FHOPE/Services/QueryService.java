@@ -3,6 +3,7 @@ package FHOPE.Services;
 import FHOPE.Controller.Controller;
 import FHOPE.Model.Customer;
 import FHOPE.Model.DataStructure.BinarySearchTree;
+import FHOPE.Model.Query.AlterQuery;
 import FHOPE.Model.Query.InsertQuery;
 import FHOPE.Model.Query.Query;
 import FHOPE.Model.Query.SelectQuery;
@@ -70,5 +71,38 @@ public class QueryService extends Controller {
             }
             return decryptedPassword;
         }
+    }
+
+    public int getCurrentBalance(String usernameValue) throws Exception {
+        Connection connection = dbm.getDbConnection();
+        Query selectQuery = new SelectQuery();
+        String queryStmt = selectQuery.createQuery();
+
+        PreparedStatement preparedStmt = connection.prepareStatement(queryStmt);
+        preparedStmt.setString (1, usernameValue);
+
+        ResultSet rs = selectQuery.executeQuery(preparedStmt);
+
+        int currentBalance = -1;
+        String balanceStr = "";
+
+        while (rs.next()) {
+            balanceStr = rs.getString(3);
+        }
+
+        currentBalance = Integer.parseInt(balanceStr);
+        return currentBalance;
+    }
+
+    public void updateBalance(int newValue,String userName) throws Exception {
+            Connection connection = dbm.getDbConnection();
+            Query alterQuery = new AlterQuery();
+            String queryStmt = alterQuery.createQuery();
+
+            PreparedStatement preparedStmt = connection.prepareStatement(queryStmt);
+            preparedStmt.setString (1, String.valueOf(newValue));
+            preparedStmt.setString(2,userName);
+
+            preparedStmt.executeUpdate();
     }
 }

@@ -8,6 +8,11 @@ public class Customer {
     private String cardnumber;
     private String password;
 
+    public Customer()
+    {
+        this.balance = "0";
+    }
+
     public String getUsername() {
         return username;
     }

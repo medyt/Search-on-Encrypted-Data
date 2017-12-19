@@ -7,7 +7,7 @@ public class DbManager {
 
     public void connect() throws Exception {
         Class.forName("com.mysql.jdbc.Driver");
-        connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/appdb?" + "user=root&password=root");
+        connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/appdb?" + "user=root&password=cacatdeurs");
     }
 
     public Connection getDbConnection() throws Exception {
