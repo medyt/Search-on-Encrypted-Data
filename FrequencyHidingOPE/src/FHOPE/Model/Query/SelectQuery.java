@@ -7,4 +7,9 @@ public class SelectQuery extends Query {
         String query = "SELECT * FROM customers WHERE username = ?";
         return query;
     }
+
+    @Override
+    public String createQueryPass() {
+        return null;
+    }
 }

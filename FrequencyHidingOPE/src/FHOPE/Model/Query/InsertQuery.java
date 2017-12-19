@@ -7,4 +7,9 @@ public class InsertQuery extends Query {
         String query = "insert into customers values (?, ?, ?, ?, ?)";
         return query;
     }
+
+    @Override
+    public String createQueryPass() {
+        return null;
+    }
 }

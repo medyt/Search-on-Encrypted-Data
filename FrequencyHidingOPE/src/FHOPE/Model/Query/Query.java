@@ -13,4 +13,6 @@ public abstract class Query {
     public ResultSet executeQuery (PreparedStatement preparedStmt) throws Exception {
         return preparedStmt.executeQuery();
     }
+
+    public abstract String createQueryPass();
 }

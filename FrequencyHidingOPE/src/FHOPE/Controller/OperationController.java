@@ -53,11 +53,18 @@ public class OperationController {
     }
 
     @FXML
-    public void handlechangePasswordButton(ActionEvent actionEvent) {
-        int amountOfMoney = inputBox("Change Password","Change Password Operation");
+    public void handlechangePasswordButton(ActionEvent actionEvent) throws Exception {
+        String newPassword = inputNewPasswordBox("Change Password","Change Password Operation");
+
+        Customer currentCustomer = LoginController.getCurrentCustomer();
+        QueryService queryService = new QueryService();
+
+        currentCustomer.setPassword(newPassword);
+        queryService.updatePassword(newPassword,currentCustomer);
+
     }
 
-    private int inputBox(String titleBar, String headerMessage) {
+    private int inputBox(String titleBar, String headerMessage)  {
         TextInputDialog dialog = new TextInputDialog(" ");
         dialog.setTitle(titleBar);
         dialog.setHeaderText(headerMessage);
@@ -69,4 +76,19 @@ public class OperationController {
         }
         return Integer.parseInt(result.get());
     }
+
+    private String inputNewPasswordBox(String titleBar, String headerMessage)
+    {
+        TextInputDialog dialog = new TextInputDialog("new pass");
+        dialog.setTitle(titleBar);
+        dialog.setHeaderText(headerMessage);
+        dialog.setContentText("Enter a new Password");
+
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()) {
+            System.out.println("Your new Password is" + result.get());
+        }
+        return result.get();
+    }
+
 }

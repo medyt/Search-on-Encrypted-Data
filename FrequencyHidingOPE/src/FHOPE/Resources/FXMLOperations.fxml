@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            prefHeight="400.0" prefWidth="600.0"
+            fx:controller="FHOPE.Controller.OperationController">
+
+    <Button fx:id="debitButton" layoutX="250.0" layoutY="100.0" onAction="#handleDebitButton" text="Debit" />
+    <Button fx:id="creditButton" layoutX="250.0" layoutY="150.0" onAction="#handleCreditButton" text="Credit" />
+    <Button fx:id="changePasswordButton" layoutX="250.0" layoutY="200.0" onAction="#handlechangePasswordButton" text="Change Password" />
+
+</AnchorPane>

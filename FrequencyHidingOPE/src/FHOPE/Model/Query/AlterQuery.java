@@ -7,4 +7,10 @@ public class AlterQuery extends Query {
         String query = "UPDATE CUSTOMERS SET balance=? WHERE username = ?";
         return query;
     }
+
+    public String createQueryPass()
+    {
+        String query = "UPDATE CUSTOMERS SET password =? WHERE username = ?";
+        return query;
+    }
 }

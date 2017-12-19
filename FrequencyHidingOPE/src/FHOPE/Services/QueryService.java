@@ -105,4 +105,16 @@ public class QueryService extends Controller {
 
             preparedStmt.executeUpdate();
     }
+
+    public void updatePassword(String newPassword,Customer currentCustomer) throws Exception {
+
+        Connection connection = dbm.getDbConnection();
+        Query alterQuery = new AlterQuery();
+        String queryStmt = alterQuery.createQueryPass();
+
+        PreparedStatement preparedStmt = connection.prepareStatement(queryStmt);
+        preparedStmt.setString (1, newPassword);
+        preparedStmt.setString(2,currentCustomer.getUsername());
+        preparedStmt.executeUpdate();
+    }
 }
