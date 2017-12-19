@@ -1,0 +1,16 @@
+package FHOPE.Model.Monitoring;
+
+import java.io.*;
+import java.util.*;
+
+BSTDecrypt(BinarySearchTree bst) {
+	event setroot after(BinarySearchTree bst) : call(* isRootSet()) && target(bst) {}
+	event decrypt before(BinarySearchTree bst) : call(* decrypt(..)) && target(bst) {}
+
+	ptltl : decrypt implies (*) setroot
+
+	@violation {
+	    System.err.println("! decrypt without checking if the root is set");
+		__RESET;
+	}
+}

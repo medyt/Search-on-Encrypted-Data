@@ -11,6 +11,10 @@ public class BinarySearchTree {
         root = null;
     }
 
+    public boolean isRootSet() {
+        return root != null;
+    }
+
     public static void cleanInstance() {
         treeInstance = new BinarySearchTree();
     }

@@ -4,7 +4,6 @@ import FHOPE.Model.DataStructure.BinarySearchTree;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,7 +16,10 @@ public class BinarySearchTreeTest {
 
     private String safeDecrypt(final BinarySearchTree tree, final int cipher) {
         try {
-            return tree.decrypt(cipher);
+            if (tree.isRootSet()) {
+                return tree.decrypt(cipher);
+            }
+            throw new Exception("Attempt to decrypt but root is not set");
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
