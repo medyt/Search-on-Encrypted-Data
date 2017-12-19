@@ -1,9 +1,9 @@
-package FHOPE.Model.Monitoring;
+package FHOPE.Model.Monitoring.BSTDecrypt;
 
 import java.io.*;
 import java.util.*;
 
-HasNext(Iterator i) {
+BSTDecrypt(BinarySearchTree bst) {
 	event setroot after(BinarySearchTree bst) : call(* isRootSet()) && target(bst) {}
 	event decrypt before(BinarySearchTree bst) : call(* decrypt(..)) && target(bst) {}
 
