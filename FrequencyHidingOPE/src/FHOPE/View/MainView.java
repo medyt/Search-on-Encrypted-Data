@@ -30,7 +30,7 @@ public class MainView {
         queryController.insert(new String[]{"User7", "mail2", "112", "1122334455667788", "password"});
         queryController.insert(new String[]{"User6", "mail2", "112", "1122334455667788", "password"});*/
 
-        //RegisterWindow register = new RegisterWindow();
-        //register.draw();
+        RegisterWindow register = new RegisterWindow();
+        register.draw();
     }
 }
