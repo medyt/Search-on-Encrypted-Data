@@ -3,14 +3,14 @@ package FHOPE.Model.Monitoring;
 import java.io.*;
 import java.util.*;
 
-BSTDecrypt(BinarySearchTree bst) {
-	event setroot after(BinarySearchTree bst) : call(* isRootSet()) && target(bst) {}
-	event decrypt before(BinarySearchTree bst) : call(* decrypt(..)) && target(bst) {}
+HasNext(Iterator i) {
+	event hasnext after(Iterator i) : call(* Iterator.hasNext()) && target(i) {}
+	event next before(Iterator i) : call(* Iterator.next()) && target(i) {}
 
-	ptltl : decrypt implies (*) setroot
+	ptltl : next implies (*) hasnext
 
 	@violation {
-	    System.err.println("! decrypt without checking if the root is set");
+	    System.err.println("! hasNext() has not been called before calling next() for an iterator");
 		__RESET;
 	}
 }
