@@ -45,6 +45,11 @@ public class LoginController extends Controller implements Initializable {
         String username = textUsername.getText();
         String password = textPassword.getText();
 
+        if (username.length() == 0 || password.length() == 0) {
+            infoBox("You did not enter username or password", "Failed", null);
+            return;
+        }
+
         loggedInCustomer = new Customer();
         loggedInCustomer.setUsername(username);
         loggedInCustomer.setPassword(password);
@@ -60,9 +65,11 @@ public class LoginController extends Controller implements Initializable {
             Scene scene = new Scene(FXMLLoader.load(getClass().getResource("../Resources/FXMLOperations.fxml")));
             stage.setScene(scene);
             stage.show();
+            return;
         }
         else {
             infoBox("Enter Correct Name and Password", "Failed", null);
+            return;
         }
     }
 

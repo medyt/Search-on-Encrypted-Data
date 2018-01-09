@@ -3,6 +3,7 @@ package FHOPE.Services;
 import FHOPE.Controller.Controller;
 import FHOPE.Model.Customer;
 import FHOPE.Model.DataStructure.BinarySearchTree;
+import FHOPE.Model.DbManager;
 import FHOPE.Model.Query.AlterQuery;
 import FHOPE.Model.Query.InsertQuery;
 import FHOPE.Model.Query.Query;
@@ -16,14 +17,14 @@ public class QueryService extends Controller {
     BinarySearchTree bst = null;
 
     private int minEncryptionBound = 1;
-    private int maxEncryptionBound = 1024;
+    private int maxEncryptionBound = 1024 * 1024;
 
     public QueryService() throws Exception {
         super();
         bst = BinarySearchTree.getTreeInstance();
     }
 
-    public String encryptSensitiveValue(String value) {
+    public String encryptSensitiveValue(String value) throws Exception {
         return Integer.toString(bst.encrypt(value, minEncryptionBound, maxEncryptionBound));
     }
 
@@ -31,13 +32,13 @@ public class QueryService extends Controller {
         return bst.decrypt(Integer.parseInt(cipher));
     }
 
-    public void insert(Customer newCustomer) throws Exception {
+    public synchronized void insert(Customer newCustomer) throws Exception {
         // encrypt password before inserting
 
         String password = newCustomer.getPassword();
         newCustomer.setPassword(encryptSensitiveValue(password));
 
-        try (Connection connection = dbm.getDbConnection()){
+        try (Connection connection = DbManager.getInstance().getConnection()){
             Query insertQuery = new InsertQuery();
             String queryStmt = insertQuery.createQuery();
 
@@ -53,7 +54,7 @@ public class QueryService extends Controller {
     }
 
     public String select(String usernameValue) throws Exception {
-        try (Connection connection = dbm.getDbConnection()){
+        try (Connection connection = DbManager.getInstance().getConnection()) {
             Query selectQuery = new SelectQuery();
             String queryStmt = selectQuery.createQuery();
 
@@ -74,47 +75,49 @@ public class QueryService extends Controller {
     }
 
     public int getCurrentBalance(String usernameValue) throws Exception {
-        Connection connection = dbm.getDbConnection();
-        Query selectQuery = new SelectQuery();
-        String queryStmt = selectQuery.createQuery();
+        try (Connection connection = DbManager.getInstance().getConnection()) {
+            Query selectQuery = new SelectQuery();
+            String queryStmt = selectQuery.createQuery();
 
-        PreparedStatement preparedStmt = connection.prepareStatement(queryStmt);
-        preparedStmt.setString (1, usernameValue);
+            PreparedStatement preparedStmt = connection.prepareStatement(queryStmt);
+            preparedStmt.setString(1, usernameValue);
 
-        ResultSet rs = selectQuery.executeQuery(preparedStmt);
+            ResultSet rs = selectQuery.executeQuery(preparedStmt);
 
-        int currentBalance = -1;
-        String balanceStr = "";
+            int currentBalance = -1;
+            String balanceStr = "";
 
-        while (rs.next()) {
-            balanceStr = rs.getString(3);
+            while (rs.next()) {
+                balanceStr = rs.getString(3);
+            }
+
+            currentBalance = Integer.parseInt(balanceStr);
+            return currentBalance;
         }
-
-        currentBalance = Integer.parseInt(balanceStr);
-        return currentBalance;
     }
 
-    public void updateBalance(int newValue,String userName) throws Exception {
-            Connection connection = dbm.getDbConnection();
+    public void updateBalance(int newValue, String userName) throws Exception {
+        try (Connection connection = DbManager.getInstance().getConnection()) {
             Query alterQuery = new AlterQuery();
             String queryStmt = alterQuery.createQuery();
 
             PreparedStatement preparedStmt = connection.prepareStatement(queryStmt);
-            preparedStmt.setString (1, String.valueOf(newValue));
-            preparedStmt.setString(2,userName);
+            preparedStmt.setString(1, String.valueOf(newValue));
+            preparedStmt.setString(2, userName);
 
             preparedStmt.executeUpdate();
+        }
     }
 
-    public void updatePassword(String newPassword,Customer currentCustomer) throws Exception {
+    public void updatePassword(String newPassword, Customer currentCustomer) throws Exception {
+        try (Connection connection = DbManager.getInstance().getConnection()) {
+            Query alterQuery = new AlterQuery();
+            String queryStmt = alterQuery.createQueryPass();
 
-        Connection connection = dbm.getDbConnection();
-        Query alterQuery = new AlterQuery();
-        String queryStmt = alterQuery.createQueryPass();
-
-        PreparedStatement preparedStmt = connection.prepareStatement(queryStmt);
-        preparedStmt.setString (1, newPassword);
-        preparedStmt.setString(2,currentCustomer.getUsername());
-        preparedStmt.executeUpdate();
+            PreparedStatement preparedStmt = connection.prepareStatement(queryStmt);
+            preparedStmt.setString(1, newPassword);
+            preparedStmt.setString(2, currentCustomer.getUsername());
+            preparedStmt.executeUpdate();
+        }
     }
 }

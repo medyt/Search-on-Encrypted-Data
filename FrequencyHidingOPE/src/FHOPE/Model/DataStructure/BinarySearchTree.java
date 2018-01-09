@@ -5,6 +5,7 @@ import java.util.Random;
 public class BinarySearchTree {
     public static Node root;
     private static BinarySearchTree treeInstance;
+    private final static int MAX_SIZE = 10000;
 
     private BinarySearchTree() {
         treeInstance = null;
@@ -27,7 +28,11 @@ public class BinarySearchTree {
         return treeInstance;
     }
 
-    public int encrypt(final String plain, int minBound, int maxBound) {
+    public int encrypt(final String plain, int minBound, int maxBound) throws Exception {
+        if (plain.length() > MAX_SIZE) {
+            throw new Exception("Length value exceeded maximum size");
+        }
+
         if (root == null) {
             root = new Node((int) Math.ceil((maxBound - minBound)/2), plain);
             return root.cipher;

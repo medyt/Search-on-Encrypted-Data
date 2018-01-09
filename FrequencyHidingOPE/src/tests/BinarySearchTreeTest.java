@@ -14,6 +14,14 @@ public class BinarySearchTreeTest {
     private static final int minBound = -1;
     private static final int maxBound = 128;
 
+    private int safeEncrypt(final BinarySearchTree tree, final String plaintext) {
+        try {
+            return tree.encrypt(plaintext, minBound, maxBound);
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
     private String safeDecrypt(final BinarySearchTree tree, final int cipher) {
         try {
             if (tree.isRootSet()) {
@@ -67,7 +75,7 @@ public class BinarySearchTreeTest {
         BinarySearchTree tree = BinarySearchTree.getTreeInstance();
 
         List<Integer> ciphers = plaintexts.stream()
-                                          .map(p -> tree.encrypt(p, minBound, maxBound))
+                                          .map(p -> safeEncrypt(tree, p))
                                           .collect(Collectors.toList());
         Assert.assertEquals(ciphers.stream()
                                    .filter(c -> (minBound <= c && maxBound >= c))
@@ -80,7 +88,7 @@ public class BinarySearchTreeTest {
         BinarySearchTree tree = BinarySearchTree.getTreeInstance();
 
         List<Integer> ciphers = plaintexts.stream()
-                                          .map(p -> tree.encrypt(p, minBound, maxBound))
+                                          .map(p -> safeEncrypt(tree, p))
                                           .collect(Collectors.toList());
         List<String> decryptedCiphers = ciphers.stream()
                                                .map(c -> safeDecrypt(tree, c))
