@@ -34,7 +34,7 @@ public class BinarySearchTree {
         }
 
         if (root == null) {
-            root = new Node((int) Math.ceil((maxBound - minBound)/2), plain);
+            root = new Node((int) Math.ceil((maxBound - minBound) / 2), plain);
             return root.cipher;
         }
 
@@ -70,17 +70,15 @@ public class BinarySearchTree {
         }
     }
 
-    public String decrypt(final int cipher) throws Exception{
+    public String decrypt(final int cipher) throws Exception {
         Node current = root;
 
         while (current != null) {
             if (current.cipher > cipher) {
                 current = current.left;
-            }
-            else if (current.cipher < cipher) {
+            } else if (current.cipher < cipher) {
                 current = current.right;
-            }
-            else {
+            } else {
                 return current.plain;
             }
         }

@@ -1,8 +1,5 @@
 package FHOPE.Controller;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import FHOPE.Model.Customer;
 import FHOPE.Services.QueryService;
 import javafx.event.ActionEvent;
@@ -15,7 +12,10 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class RegisterController extends Controller implements Initializable {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class RegisterController implements Initializable {
 
     @FXML
     private TextField textUsername;
@@ -29,6 +29,15 @@ public class RegisterController extends Controller implements Initializable {
     @FXML
     private TextField textCardNumber;
 
+    private Customer buildCustomerObject(String username, String password, String email, String cardNo) {
+        Customer newCustomer = new Customer();
+        newCustomer.setUsername(username);
+        newCustomer.setPassword(password);
+        newCustomer.setEmail(email);
+        newCustomer.setCardNumber(cardNo);
+        return newCustomer;
+    }
+
     @FXML
     private void handleSubmitButton(ActionEvent actionEvent) throws Exception {
         String username = textUsername.getText();
@@ -36,12 +45,7 @@ public class RegisterController extends Controller implements Initializable {
         String email = textEmail.getText();
         String cardNo = textCardNumber.getText();
 
-        Customer newCustomer = new Customer();
-        newCustomer.setUsername(username);
-        newCustomer.setPassword(password);
-        newCustomer.setEmail(email);
-        newCustomer.setCardNumber(cardNo);
-
+        Customer newCustomer = this.buildCustomerObject(username, password, email, cardNo);
         QueryService service = new QueryService();
         service.insert(newCustomer);
 
@@ -58,5 +62,6 @@ public class RegisterController extends Controller implements Initializable {
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle rb) {}
+    public void initialize(URL url, ResourceBundle rb) {
+    }
 }

@@ -12,14 +12,16 @@ public class FHOPESecurityTest {
     final static private int MAX_BOUND = 1024 * 1024;
 
     private int encrypt(String plain) throws Exception {
-        return  BinarySearchTree.getTreeInstance().encrypt(plain, MIN_BOUND, MAX_BOUND);
+        return BinarySearchTree.getTreeInstance().encrypt(plain, MIN_BOUND, MAX_BOUND);
     }
 
     @Test
-    public void testSQLInjection() {}
+    public void testSQLInjection() {
+    }
 
     @Test
-    public void testBufferOverflows() {}
+    public void testBufferOverflows() {
+    }
 
     @Test
     public void testFrequencyAttack() throws Exception {

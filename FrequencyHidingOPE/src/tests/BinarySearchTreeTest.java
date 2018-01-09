@@ -35,12 +35,12 @@ public class BinarySearchTreeTest {
 
     @DataProvider(name = "Plaintexts")
     public static Object[][] createPlaintexts() {
-        return new Object[][] { {"ascii-plain-112"}, {"unicode\u002dtext"},  {""} };
+        return new Object[][]{{"ascii-plain-112"}, {"unicode\u002dtext"}, {""}};
     }
 
     @DataProvider(name = "ArrayOfPlaintexts")
     public static Object[][] createArrayOfPlaintexts() {
-        return new Object[][] { {asList("plain-1", "plain-1", "plain-2", "plain-3", "plain-4", "plain-5")} };
+        return new Object[][]{{asList("plain-1", "plain-1", "plain-2", "plain-3", "plain-4", "plain-5")}};
     }
 
     @Test
@@ -75,11 +75,11 @@ public class BinarySearchTreeTest {
         BinarySearchTree tree = BinarySearchTree.getTreeInstance();
 
         List<Integer> ciphers = plaintexts.stream()
-                                          .map(p -> safeEncrypt(tree, p))
-                                          .collect(Collectors.toList());
+                .map(p -> safeEncrypt(tree, p))
+                .collect(Collectors.toList());
         Assert.assertEquals(ciphers.stream()
-                                   .filter(c -> (minBound <= c && maxBound >= c))
-                                   .collect(Collectors.toList()), ciphers);
+                .filter(c -> (minBound <= c && maxBound >= c))
+                .collect(Collectors.toList()), ciphers);
     }
 
     @Test(dataProvider = "ArrayOfPlaintexts")
@@ -88,11 +88,11 @@ public class BinarySearchTreeTest {
         BinarySearchTree tree = BinarySearchTree.getTreeInstance();
 
         List<Integer> ciphers = plaintexts.stream()
-                                          .map(p -> safeEncrypt(tree, p))
-                                          .collect(Collectors.toList());
+                .map(p -> safeEncrypt(tree, p))
+                .collect(Collectors.toList());
         List<String> decryptedCiphers = ciphers.stream()
-                                               .map(c -> safeDecrypt(tree, c))
-                                               .collect(Collectors.toList());
+                .map(c -> safeDecrypt(tree, c))
+                .collect(Collectors.toList());
         Assert.assertEquals(plaintexts, decryptedCiphers);
     }
 }

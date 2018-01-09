@@ -1,6 +1,5 @@
 package FHOPE.Services;
 
-import FHOPE.Controller.Controller;
 import FHOPE.Model.Customer;
 import FHOPE.Model.DataStructure.BinarySearchTree;
 import FHOPE.Model.DbManager;
@@ -13,7 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class QueryService extends Controller {
+public class QueryService {
     BinarySearchTree bst = null;
 
     private int minEncryptionBound = 1;
@@ -38,16 +37,16 @@ public class QueryService extends Controller {
         String password = newCustomer.getPassword();
         newCustomer.setPassword(encryptSensitiveValue(password));
 
-        try (Connection connection = DbManager.getInstance().getConnection()){
+        try (Connection connection = DbManager.getInstance().getConnection()) {
             Query insertQuery = new InsertQuery();
             String queryStmt = insertQuery.createQuery();
 
             PreparedStatement preparedStmt = connection.prepareStatement(queryStmt);
-            preparedStmt.setString (1, newCustomer.getUsername());
-            preparedStmt.setString (2, newCustomer.getEmail());
-            preparedStmt.setString (3, newCustomer.getBalance());
-            preparedStmt.setString (4, newCustomer.getCardNumber()) ;
-            preparedStmt.setString (5, newCustomer.getPassword());
+            preparedStmt.setString(1, newCustomer.getUsername());
+            preparedStmt.setString(2, newCustomer.getEmail());
+            preparedStmt.setString(3, newCustomer.getBalance());
+            preparedStmt.setString(4, newCustomer.getCardNumber());
+            preparedStmt.setString(5, newCustomer.getPassword());
 
             boolean rs = insertQuery.execute(preparedStmt);
         }
@@ -59,11 +58,11 @@ public class QueryService extends Controller {
             String queryStmt = selectQuery.createQuery();
 
             PreparedStatement preparedStmt = connection.prepareStatement(queryStmt);
-            preparedStmt.setString (1, usernameValue);
+            preparedStmt.setString(1, usernameValue);
 
             ResultSet rs = selectQuery.executeQuery(preparedStmt);
             String decryptedPassword = "";
-            while (rs.next()){
+            while (rs.next()) {
                 String username = rs.getString(1);
                 String email = rs.getString(2);
                 String cardNumber = rs.getString(4);

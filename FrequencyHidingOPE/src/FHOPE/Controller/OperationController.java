@@ -11,8 +11,7 @@ import java.util.Optional;
 
 public class OperationController {
 
-    public void infoBox(String infoMessage, String titleBar, String headerMessage)
-    {
+    public void infoBox(String infoMessage, String titleBar, String headerMessage) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(titleBar);
         alert.setHeaderText(headerMessage);
@@ -22,63 +21,58 @@ public class OperationController {
 
     @FXML
     public void handleDebitButton(ActionEvent actionEvent) throws Exception {
-        int amountOfMoney = inputBox("Debit","Debit Operation");
 
+        int amountOfMoney = inputBox("Debit", "Debit Operation");
         Customer currentCustomer = LoginController.getCurrentCustomer();
-
         QueryService queryService = new QueryService();
-
         int currentBalance = queryService.getCurrentBalance(currentCustomer.getUsername());
-        if(currentBalance < amountOfMoney)
-        {
-            infoBox("Insufficient funds","You don't have enough money ","");
+
+        if (currentBalance < amountOfMoney) {
+            infoBox("Insufficient funds", "You don't have enough money ", "");
         }
 
         int newBalance = currentBalance - amountOfMoney;
-
-        queryService.updateBalance(newBalance,currentCustomer.getUsername());
+        queryService.updateBalance(newBalance, currentCustomer.getUsername());
     }
 
     @FXML
     public void handleCreditButton(ActionEvent actionEvent) throws Exception {
-        int amountOfMoney = inputBox("Credit","Credit Operation");
-        Customer currentCustomer = LoginController.getCurrentCustomer();
 
+        int amountOfMoney = inputBox("Credit", "Credit Operation");
+        Customer currentCustomer = LoginController.getCurrentCustomer();
         QueryService queryService = new QueryService();
 
         int currentBalance = queryService.getCurrentBalance(currentCustomer.getUsername());
         int newBalance = currentBalance + amountOfMoney;
-
-        queryService.updateBalance(newBalance,currentCustomer.getUsername());
+        queryService.updateBalance(newBalance, currentCustomer.getUsername());
     }
 
     @FXML
     public void handlechangePasswordButton(ActionEvent actionEvent) throws Exception {
-        String newPassword = inputNewPasswordBox("Change Password","Change Password Operation");
 
+        String newPassword = inputNewPasswordBox("Change Password", "Change Password Operation");
         Customer currentCustomer = LoginController.getCurrentCustomer();
         QueryService queryService = new QueryService();
 
         currentCustomer.setPassword(newPassword);
-        queryService.updatePassword(newPassword,currentCustomer);
-
+        queryService.updatePassword(newPassword, currentCustomer);
     }
 
-    private int inputBox(String titleBar, String headerMessage)  {
+    private int inputBox(String titleBar, String headerMessage) {
         TextInputDialog dialog = new TextInputDialog(" ");
         dialog.setTitle(titleBar);
         dialog.setHeaderText(headerMessage);
         dialog.setContentText("Please enter the amount of money:");
 
         Optional<String> result = dialog.showAndWait();
-        if (result.isPresent()){
+        if (result.isPresent()) {
             System.out.println("Your Amount of money" + result.get());
         }
+
         return Integer.parseInt(result.get());
     }
 
-    private String inputNewPasswordBox(String titleBar, String headerMessage)
-    {
+    private String inputNewPasswordBox(String titleBar, String headerMessage) {
         TextInputDialog dialog = new TextInputDialog("new pass");
         dialog.setTitle(titleBar);
         dialog.setHeaderText(headerMessage);
@@ -88,6 +82,7 @@ public class OperationController {
         if (result.isPresent()) {
             System.out.println("Your new Password is" + result.get());
         }
+
         return result.get();
     }
 

@@ -1,11 +1,5 @@
 package FHOPE.Controller;
 
-import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ResourceBundle;
-
 import FHOPE.Model.Customer;
 import FHOPE.Services.QueryService;
 import javafx.event.ActionEvent;
@@ -20,8 +14,11 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class LoginController extends Controller implements Initializable {
+
+public class LoginController implements Initializable {
 
     @FXML
     private TextField textUsername;
@@ -35,9 +32,16 @@ public class LoginController extends Controller implements Initializable {
 
     private static Customer loggedInCustomer;
 
-    public static Customer getCurrentCustomer()
-    {
+    public static Customer getCurrentCustomer() {
         return loggedInCustomer;
+    }
+
+    private boolean validateUserInput(String username, String password) {
+        if (username.length() == 0 || password.length() == 0) {
+            infoBox("You did not enter username or password", "Failed", null);
+            return false;
+        }
+        return true;
     }
 
     @FXML
@@ -45,10 +49,7 @@ public class LoginController extends Controller implements Initializable {
         String username = textUsername.getText();
         String password = textPassword.getText();
 
-        if (username.length() == 0 || password.length() == 0) {
-            infoBox("You did not enter username or password", "Failed", null);
-            return;
-        }
+        if (!validateUserInput(username, password)) return;
 
         loggedInCustomer = new Customer();
         loggedInCustomer.setUsername(username);
@@ -66,15 +67,13 @@ public class LoginController extends Controller implements Initializable {
             stage.setScene(scene);
             stage.show();
             return;
-        }
-        else {
+        } else {
             infoBox("Enter Correct Name and Password", "Failed", null);
             return;
         }
     }
 
-    public void infoBox(String infoMessage, String titleBar, String headerMessage)
-    {
+    public void infoBox(String infoMessage, String titleBar, String headerMessage) {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle(titleBar);
         alert.setHeaderText(headerMessage);
@@ -83,5 +82,6 @@ public class LoginController extends Controller implements Initializable {
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle rb) {}
+    public void initialize(URL url, ResourceBundle rb) {
+    }
 }

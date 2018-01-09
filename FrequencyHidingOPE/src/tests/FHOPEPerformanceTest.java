@@ -19,7 +19,7 @@ public abstract class FHOPEPerformanceTest extends Thread {
     private int threadId;
 
     private synchronized static int getNextId() {
-        return CURR_ID ++;
+        return CURR_ID++;
     }
 
     protected FHOPEPerformanceTest() throws Exception {
@@ -34,7 +34,8 @@ public abstract class FHOPEPerformanceTest extends Thread {
             Thread[] threadList = new Thread[NUM_OF_THREADS];
 
             for (int i = 0; i < NUM_OF_THREADS; i++) {
-                threadList[i] = new FHOPEPerformanceTest() {};
+                threadList[i] = new FHOPEPerformanceTest() {
+                };
                 threadList[i].start();
             }
 
@@ -46,8 +47,7 @@ public abstract class FHOPEPerformanceTest extends Thread {
             long elapsedTime = stopTime - startTime;
 
             System.out.println("\n Elapsed time : " + elapsedTime + " ms.");
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -56,7 +56,7 @@ public abstract class FHOPEPerformanceTest extends Thread {
     public void run() {
         try {
             Customer newCustomer = new Customer();
-            for (int queryIdx = 0; queryIdx < NUM_OF_QUERIES; queryIdx ++) {
+            for (int queryIdx = 0; queryIdx < NUM_OF_QUERIES; queryIdx++) {
                 newCustomer.setUsername(USERNAME + threadId + queryIdx);
                 newCustomer.setPassword(PASSWORD + new Random().nextInt(NUM_OF_QUERIES));
                 newCustomer.setEmail(EMAIL + threadId + queryIdx);
@@ -64,9 +64,8 @@ public abstract class FHOPEPerformanceTest extends Thread {
                 queryService.insert(newCustomer);
             }
 
-            System.out.println("Thread " + threadId +  " is finished.");
-        }
-        catch (Exception e) {
+            System.out.println("Thread " + threadId + " is finished.");
+        } catch (Exception e) {
             System.out.println("Thread " + threadId + " got Exception: " + e);
             e.printStackTrace();
         }

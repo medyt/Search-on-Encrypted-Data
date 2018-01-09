@@ -1,8 +1,9 @@
 package FHOPE.Model;
 
-import java.sql.*;
-
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class DbManager {
     private static DbManager dbManager;
@@ -14,11 +15,10 @@ public class DbManager {
             comboPooledDataSource.setDriverClass("com.mysql.jdbc.Driver");
             comboPooledDataSource.setJdbcUrl("jdbc:mysql://localhost:3306/appdb");
             comboPooledDataSource.setUser("root");
-            comboPooledDataSource.setPassword("root");
+            comboPooledDataSource.setPassword("cacatdeurs");
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
-        catch (Exception ex) {
-                ex.printStackTrace();
-            }
     }
 
     public static DbManager getInstance() {
@@ -33,6 +33,7 @@ public class DbManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return null;
     }
 }

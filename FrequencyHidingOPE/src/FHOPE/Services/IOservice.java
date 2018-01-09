@@ -9,8 +9,7 @@ import java.util.Date;
 
 public class IOservice {
 
-    public static void writeFileLog(String FILENAME,String currentLog)
-    {
+    public static void writeFileLog(String FILENAME, String currentLog) {
         BufferedWriter bw = null;
         FileWriter fw = null;
 
@@ -27,7 +26,7 @@ public class IOservice {
             bw = new BufferedWriter(fw);
 
             String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
-            bw.write(currentLog + " " + timeStamp + "\n" );
+            bw.write(currentLog + " " + timeStamp + "\n");
 
         } catch (IOException e) {
 

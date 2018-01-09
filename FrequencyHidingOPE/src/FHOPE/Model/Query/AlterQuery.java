@@ -8,8 +8,7 @@ public class AlterQuery extends Query {
         return query;
     }
 
-    public String createQueryPass()
-    {
+    public String createQueryPass() {
         String query = "UPDATE CUSTOMERS SET password =? WHERE username = ?";
         return query;
     }

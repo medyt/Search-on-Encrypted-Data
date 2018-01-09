@@ -6,11 +6,11 @@ import java.sql.ResultSet;
 public abstract class Query {
     public abstract String createQuery() throws Exception;
 
-    public boolean execute (PreparedStatement preparedStmt) throws Exception {
+    public boolean execute(PreparedStatement preparedStmt) throws Exception {
         return preparedStmt.execute();
     }
 
-    public ResultSet executeQuery (PreparedStatement preparedStmt) throws Exception {
+    public ResultSet executeQuery(PreparedStatement preparedStmt) throws Exception {
         return preparedStmt.executeQuery();
     }
 
